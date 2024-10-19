@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const dns = require('dns');
 const crypto = require('crypto');
+const { URL } = require('url');
 const app = express();
 
 // Basic Configuration
@@ -53,7 +54,7 @@ app.post('/api/shorturl', (req, res) => {
       }
     });
   } catch (err) {
-    return res.status(400).json({ error: 'invalid url' });
+    return res.status(400).json({ error: 'Invalid URL' });
   }
 });
 
