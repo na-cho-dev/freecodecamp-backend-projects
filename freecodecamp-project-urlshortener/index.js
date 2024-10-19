@@ -36,6 +36,10 @@ app.post('/api/shorturl', (req, res) => {
   try {
     const validUrl = new URL(originalUrl);
 
+    if (validUrl.protocol !== 'http:' && validUrl.protocol !== 'https:') {
+      return res.status(400).json({ error: 'Invalid URL' });
+    }
+
     dns.lookup(validUrl.hostname, (err) => {
       if (err) {
         return res.status(400).json({ error: 'Invalid Hostname' });
