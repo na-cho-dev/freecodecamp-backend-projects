@@ -30,19 +30,19 @@ app.post('/api/shorturl', (req, res) => {
   originalUrl = req.body.url;
 
   if (!originalUrl) {
-    return res.status(400).json({ error: 'Invalid URL' });
+    return res.json({ error: 'Invalid URL' });
   }
 
   try {
     const validUrl = new URL(originalUrl);
 
     if (validUrl.protocol !== 'http:' && validUrl.protocol !== 'https:') {
-      return res.status(400).json({ error: 'Invalid URL' });
+      return res.json({ error: 'Invalid URL' });
     }
 
     dns.lookup(validUrl.hostname, (err) => {
       if (err) {
-        return res.status(400).json({ error: 'Invalid Hostname' });
+        return res.json({ error: 'Invalid Hostname' });
       } else {
         const hashedUrl = crypto
           .createHash('md5')
@@ -58,7 +58,7 @@ app.post('/api/shorturl', (req, res) => {
       }
     });
   } catch (err) {
-    return res.status(400).json({ error: 'Invalid URL' });
+    return res.json({ error: 'Invalid URL' });
   }
 });
 
@@ -67,9 +67,7 @@ app.get('/api/shorturl/:urlNumber', (req, res) => {
   const originalUrl = urlDatabase[urlNumber];
 
   if (!originalUrl)
-    return res
-      .status(404)
-      .json({ error: 'No short URL found for the given input' });
+    return res.json({ error: 'No short URL found for the given input' });
 
   res.redirect(originalUrl);
 });
