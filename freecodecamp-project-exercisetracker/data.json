@@ -1,0 +1,51 @@
+[
+  {
+    "_id": "8f176da696811497ea0af30ee0bef273",
+    "username": "Nacho",
+    "date": "123452345",
+    "duration": 1,
+    "description": "Checking out"
+  },
+  {
+    "_id": "7ac73f71ad5644435b8ad0eeddfc4bf9",
+    "username": "Amaka"
+  },
+  {
+    "_id": "66479df6e70578d0388b5bd268ef4e8f",
+    "username": "Jane"
+  },
+  {
+    "_id": "b29d88824008706b10b9d396767d66bb",
+    "username": "John"
+  },
+  {
+    "_id": "6de42a22228734fd35ae0dbc9e79821a",
+    "username": "Richard"
+  },
+  {
+    "_id": "914c2b51ad008c983e12c5deab336251",
+    "username": "Calafiori"
+  },
+  {
+    "_id": "7b5e11500daaa6541ef94dda0025db39",
+    "username": "Cole",
+    "duration": 3,
+    "description": "This is a test",
+    "date": "Sun Dec 03 2023"
+  },
+  {
+    "_id": "f78b534de124ffa6dfe14a57e1d29acb",
+    "username": "Jason"
+  },
+  {
+    "_id": "96ab07d80179e08190b955b34ec93d2c",
+    "username": "Mikel"
+  },
+  {
+    "_id": "198eb5d8e4d468137dcda0ab89bafcf6",
+    "username": "ruth",
+    "date": "12345",
+    "duration": 2,
+    "description": "None"
+  }
+]
