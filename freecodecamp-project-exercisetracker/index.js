@@ -24,6 +24,7 @@ app
 
     try {
       const response = await user.save();
+      console.log('Creating Users...');
       console.log(response);
       _id = response._id.toString();
       return res.json({ username: username, _id: _id });
@@ -43,24 +44,38 @@ app
   });
 
 app.post('/api/users/:_id/exercises', async (req, res) => {
-  const _id = req.body[':_id'];
-  const { date, duration, description } = req.body;
+  const _id = req.params._id;
+  const { duration, description } = req.body;
+  let date = req.body.date;
+  const checkDate = !date ? new Date() : new Date(date);
 
-  let formattedDate = new Date(date);
-  const user = await UserModel.findOne({ _id: _id }, { __v: 0 });
-  // Update User Info
-  await UserModel.updateOne(
-    { _id: _id },
-    {
-      date: formattedDate.toDateString(),
-      duration: duration,
+  try {
+    const exercise = {
+      date: checkDate.toDateString(),
+      duration: Number(duration),
       description: description,
+    };
+
+    const user = await UserModel.findById(_id).select('username');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
-  );
 
-  console.log(user);
+    await UserModel.updateOne({ _id: _id }, { $push: { exercises: exercise } });
 
-  res.json(user);
+    const response = {
+      _id: user._id,
+      username: user.username,
+      date: exercise.date,
+      duration: exercise.duration,
+      description: exercise.description,
+    };
+
+    return res.json(response);
+  } catch (err) {
+    console.log('Failed to update user...', err);
+    return res.status(500).json({ error: 'Failed to update user' });
+  }
 });
 
 const listener = app.listen(process.env.PORT || 3000, () => {
