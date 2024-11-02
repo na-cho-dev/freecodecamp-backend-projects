@@ -9,7 +9,7 @@ app.use(cors());
 app.use('/public', express.static(process.cwd() + '/public'));
 
 const fileStorageEngine = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, './'),
+  destination: (req, file, cb) => cb(null, './uploads'),
   filename: (req, file, cb) => cb(null, file.originalname),
 });
 const upload = multer({ storage: fileStorageEngine });
