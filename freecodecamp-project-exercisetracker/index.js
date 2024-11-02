@@ -78,6 +78,48 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   }
 });
 
+app.get('/api/users/:_id/logs', async (req, res) => {
+  const _id = req.params._id;
+  const { from, to, limit } = req.query;
+
+  try {
+    const user = await UserModel.findById(_id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const fromDate = from ? new Date(from) : null;
+    const toDate = to ? new Date(to) : null;
+    const userExercise = user.exercises;
+
+    let filteredExercises = userExercise.filter((exercise) => {
+      const exerciseDate = new Date(exercise.date);
+      return (
+        (!fromDate || exerciseDate >= fromDate) &&
+        (!toDate || exerciseDate <= toDate)
+      );
+    });
+
+    if (limit) {
+      filteredExercises = filteredExercises.slice(0, parseInt(limit, 10));
+    }
+
+    const response = {
+      _id: _id,
+      username: user.username,
+      count: userExercise.length,
+      log: filteredExercises,
+    };
+
+    console.log(from, to, limit);
+    return res.json(response);
+  } catch (err) {
+    console.log('Failed to fetch user...', err);
+    return res.status(500).json({ error: 'Failed to fetch user' });
+  }
+});
+
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port);
 });
